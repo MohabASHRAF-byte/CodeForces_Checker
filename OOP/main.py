@@ -21,13 +21,14 @@ def print_green(text):
 ob = Timer()
 ProgramRun = Run()
 codeforces = Codeforces()
-codeforces_tests = codeforces.get_tests(1846, "g")
+codeforces_tests = codeforces.get_tests(1145, "f")
 cnt = 1
 val = True
+ProgramRun.compile()
 for test in codeforces_tests:
     codeforces_input = test[0]
     codeforces_output = test[1]
-    error, user_output = ProgramRun.do_work(codeforces_input)
+    error, user_output = ProgramRun.run(codeforces_input)
     checker = Checker(user_output, codeforces_output)
     res = checker.do_work()
     isValid = 'T' if checker.is_valid(res) else 'F'
@@ -54,5 +55,3 @@ if val:
     print_green("Time elapsed : " + str(round(ob.calc(), 5)))
 else:
     print_red("Time elapsed : " + str(round(ob.calc(), 5)))
-del codeforces.db
-
