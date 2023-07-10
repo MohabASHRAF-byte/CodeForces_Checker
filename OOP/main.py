@@ -1,6 +1,8 @@
 from codefores import Codeforces
 from run_file import Run
 from test_checker import Checker
+from timer import Timer
+
 
 def print_red(text):
     RED = '\033[91m'  # ANSI escape sequence for red text
@@ -16,10 +18,12 @@ def print_green(text):
     print(GREEN + text + RESET, end='')
 
 
+ob = Timer()
 ProgramRun = Run()
 codeforces = Codeforces()
-codeforces_tests = codeforces.get_tests(1846, "b")
+codeforces_tests = codeforces.get_tests(1846, "g")
 cnt = 1
+val = True
 for test in codeforces_tests:
     codeforces_input = test[0]
     codeforces_output = test[1]
@@ -31,6 +35,8 @@ for test in codeforces_tests:
         print_green(f'Test {cnt} : {isValid}')
     else:
         print_red(f'Test {cnt} : {isValid}')
+        val = False
+
     print()
     cnt += 1
 
@@ -44,3 +50,9 @@ for test in codeforces_tests:
             print(end=' ')
         print()
     print()
+if val:
+    print_green("Time elapsed : " + str(round(ob.calc(), 5)))
+else:
+    print_red("Time elapsed : " + str(round(ob.calc(), 5)))
+del codeforces.db
+

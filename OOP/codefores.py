@@ -1,16 +1,32 @@
 import requests
 from bs4 import BeautifulSoup
+from database import DB
+from timer import Timer
 
 
 class Codeforces:
     contestId, problemIdx, contest_type = 0, 0, 0
     inputList, outputList = [], []
+    db = DB()
+
+    def __init__(self):
+        self.ob = Timer()
+
+    def t(self):
+        print(self.ob.calc())
 
     def get_tests(self, idd: int, idx):
+        indx = f'{idd}{idx.upper()}'
+        self.db.do_work(indx)
+        if self.db.is_ava():
+            return self.db.get_test()
         self.contestId = idd
         self.problemIdx = idx.upper()
         self.contest_type = "problemset" if self.contestId < 3000 else "gym"
-        return self.do_work()
+        li = self.do_work()
+        if not self.db.is_ava():
+            self.db.push(li, indx)
+        return li
 
     def do_work(self):
         soup = self.get_page()
@@ -22,9 +38,10 @@ class Codeforces:
         return li
 
     def get_page(self):
-        url = f"https://codeforces.com/" \
-              f"{self.contest_type}/problem/" \
-              f"{self.contestId}/{self.problemIdx}"
+        if self.contestId > 3000:
+            url = f"https://codeforces.com/gym/{self.contestId}/problem/{self.problemIdx}"
+        else:
+            url = f"https://codeforces.com/problemset/problem/{self.contestId}/{self.problemIdx}"
         page = requests.get(url)
         if page.status_code != 200:
             print("Problem Not found ")
@@ -56,3 +73,6 @@ class Codeforces:
             test = test.find("pre").text.strip()
             li.append(test)
         return li
+
+
+

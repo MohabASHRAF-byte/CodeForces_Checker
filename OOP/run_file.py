@@ -2,7 +2,8 @@ import subprocess
 
 
 class Run:
-    cpp_file_path = r"/home/mohab/CLionProjects/untitled1/main.cpp"
+    # Put cpp file full path in the pc
+    cpp_file_path = r"main.cpp"
 
     compile_command = f"g++ {cpp_file_path} -o compiled_cpp_file"
     input_string = str()
