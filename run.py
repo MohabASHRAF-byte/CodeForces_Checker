@@ -63,17 +63,6 @@ class DB:
         self.conn.commit()
         self.conn.close()
 
-
-#
-# ob = DB()
-# ob.do_work("1145B")
-# print(ob.is_ava())
-# # ob.do_work()
-# # ob.get_test()
-# ob.display()
-# ob.push(li, "1146B")
-# ob.display()
-
 def assign_str(idx: int, li: list):
     tmp = str()
     try:
